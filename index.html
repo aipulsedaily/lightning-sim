@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lightning — a physical simulation</title>
+<link rel="stylesheet" href="./src/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>⚡</text></svg>">
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.184.0/build/three.module.js"
+  }
+}
+</script>
+</head>
+<body>
+
+<canvas id="view"></canvas>
+
+<div id="hud">
+  <div id="titlebar">
+    <span class="title">LIGHTNING</span>
+    <span class="sub">dielectric breakdown &middot; bidirectional leader &middot; MTLE return stroke</span>
+    <span id="fps"></span>
+  </div>
+  <canvas id="scope"></canvas>
+</div>
+
+<button id="panel-toggle" title="Show or hide the panel (h)">&#9776;</button>
+<button id="help-toggle" title="What am I looking at? (?)">?</button>
+
+<!-- Preset scenes. Populated from assets/photos/photos.json so the list
+     can be edited without touching any code. -->
+<div id="presets">
+  <div class="presets-label">Put the storm in a scene</div>
+  <div class="presets-row" id="presets-row"></div>
+</div>
+
+<aside id="panel"></aside>
+
+<div id="help">
+  <div class="help-inner">
+    <h1>What this is</h1>
+    <p>
+      A lightning flash, simulated from the electrostatics up. Nothing here
+      is drawn along a path chosen in advance: the channel is grown one step
+      at a time by a stochastic rule whose only input is the local electric
+      field, and everything that follows &mdash; where it strikes, how much
+      current it carries, how hot it gets, what it sounds like &mdash; comes
+      out of that channel rather than being imposed on it.
+    </p>
+
+    <h2>The sequence</h2>
+    <ol>
+      <li>
+        <b>Initiation.</b> A thundercloud carries three stacked charge
+        regions: positive above, a large negative layer on the
+        &minus;10&nbsp;&deg;C to &minus;25&nbsp;&deg;C isotherms, and a
+        smaller positive one near the base. The flash begins wherever the
+        field between them first beats the local breakdown threshold, which
+        falls with air density &mdash; so higher is easier, and that is a
+        large part of why three quarters of all flashes never leave the
+        cloud.
+      </li>
+      <li>
+        <b>The bidirectional leader.</b> The channel is an isolated
+        conductor, so it must stay electrically neutral, and its potential
+        floats to the average of its surroundings. This is Kasemir's insight
+        from 1960, and it explains the opening act: the positive end (which
+        needs a weaker field) climbs into the negative charge region first,
+        dragging the whole channel's potential down with it, and only then
+        does the negative end find itself tens of megavolts below its
+        surroundings and start driving for the ground.
+      </li>
+      <li>
+        <b>The stepped leader.</b> It advances in steps of tens of metres at
+        around 2&times;10<sup>5</sup>&nbsp;m/s, branching downward, laying a
+        few coulombs of negative charge along fifteen kilometres of channel.
+        Barely visible to the eye; obvious on a high-speed camera.
+      </li>
+      <li>
+        <b>Attachment.</b> Within a striking distance of about
+        10&nbsp;<i>I</i><sup>0.65</sup> metres, grounded objects launch
+        upward connecting leaders. Whichever gets one away first collects
+        the stroke, which is why a mast protects the field around it.
+      </li>
+      <li>
+        <b>The return stroke.</b> The channel is shorted to earth, and a
+        neutralisation wave runs back up it at roughly a third of the speed
+        of light. Thirty kiloamps, thirty thousand kelvin, a hundred
+        microseconds. Tens of milliseconds to charge, tens of microseconds
+        to discharge: that ratio is why lightning is violent.
+      </li>
+      <li>
+        <b>And again.</b> After about 60&nbsp;ms of darkness a dart leader
+        retraces the still-warm channel a hundred times faster than the
+        stepped leader did, and fires another stroke. Three to five is
+        typical. In a third of flashes a continuing current of 100&ndash;200
+        amps then flows for up to half a second &mdash; the part that
+        actually starts fires.
+      </li>
+    </ol>
+
+    <h2>Thunder</h2>
+    <p>
+      Every metre of channel is its own sound source. The shock wave from
+      each expands to a relaxation radius of a few metres and decays into an
+      N-wave a few milliseconds long, which is why thunder peaks near
+      50&ndash;100&nbsp;Hz. Because the channel is kilometres long, its
+      sound arrives spread over many seconds in the order the geometry
+      dictates: the crack is the near, nearly equidistant part, and the
+      rumble is everything else. The simulation builds a real acoustic
+      impulse response from the channel it grew and convolves through it, so
+      counting the seconds after the flash gives the right distance.
+    </p>
+
+    <h2>Your own photographs</h2>
+    <p>
+      Drop an image onto the window and it is unprojected into a 3-D scene
+      the lightning stands inside, then click anywhere to move the storm
+      there. The horizon is found automatically &mdash; it fixes the
+      camera's pitch, and everything else is measured from it &mdash; and
+      rays below it are dropped onto the ground plane while rays above meet
+      the cloud deck, which is what puts the reconstruction in metres
+      rather than in arbitrary units. A depth network can be switched on to
+      add real relief to the foreground; it is fetched only if you ask for
+      it, and the geometry stays underneath because that is what gives the
+      network's output a scale.
+    </p>
+    <p>
+      It works best on the kind of photograph you would want lightning in:
+      horizon visible, sky above, ground or water below. Close subjects and
+      interiors have no horizon to find, and the panel will say so.
+    </p>
+
+    <h2>Controls</h2>
+    <table>
+      <tr><td>drag</td><td>orbit</td></tr>
+      <tr><td>right-drag / shift-drag</td><td>pan</td></tr>
+      <tr><td>wheel</td><td>zoom</td></tr>
+      <tr><td>space</td><td>new flash</td></tr>
+      <tr><td>r</td><td>replay the same flash</td></tr>
+      <tr><td>drop an image</td><td>build a 3-D scene from it</td></tr>
+      <tr><td>click</td><td>move the storm there (with a photo loaded)</td></tr>
+      <tr><td>1 2 3 4</td><td>camera presets</td></tr>
+      <tr><td>h</td><td>hide the interface</td></tr>
+      <tr><td>?</td><td>this panel</td></tr>
+    </table>
+
+    <p class="foot">
+      Sources, model details and the measured values every constant came
+      from are in <code>docs/PHYSICS.md</code>; the photograph pipeline is
+      in <code>docs/PHOTO.md</code>. The physics runs in
+      <code>src/core/</code> with no dependency on the renderer, and
+      <code>tests/</code> checks it against the published ranges.
+      Open source under the MIT licence.
+    </p>
+    <button id="help-close">Close</button>
+  </div>
+</div>
+
+<noscript>
+  <p style="color:#ccc;font:16px system-ui;padding:2rem">
+    This simulation needs JavaScript and WebGL 2.
+  </p>
+</noscript>
+
+<script type="module" src="./src/main.js"></script>
+<script>
+  document.getElementById('help-close')?.addEventListener('click',
+    () => document.body.classList.remove('help-open'));
+</script>
+</body>
+</html>

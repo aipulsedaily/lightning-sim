@@ -1,0 +1,51 @@
+name: tests
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: node ${{ matrix.node }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['18', '20', '22']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      # There are no dependencies to install; the physics core is plain
+      # ES modules and the tests are plain Node scripts.
+      - name: Physics
+        run: node tests/physics.test.mjs
+
+      - name: Photo reconstruction
+        run: node tests/photo.test.mjs
+
+  syntax:
+    name: every module parses
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      # Shader source lives in template literals, so a stray backtick in a
+      # GLSL comment can break a module without any test noticing. This has
+      # happened; hence the check.
+      - name: Parse
+        run: |
+          fail=0
+          for f in $(find src tests -name '*.js' -o -name '*.mjs'); do
+            node --check "$f" || { echo "FAILED: $f"; fail=1; }
+          done
+          node --check serve.mjs || fail=1
+          exit $fail

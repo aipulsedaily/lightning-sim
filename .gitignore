@@ -1,0 +1,33 @@
+# Dependencies — there are none at runtime, but tooling may create these
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Editors and OS
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs and scratch
+*.log
+npm-debug.log*
+.cache/
+tmp/
+scratch/
+
+# Screenshots dropped at the repository root by browser-automation runs.
+# The ones the documentation actually uses live in docs/images/, which is
+# why this is anchored to the root rather than being a blanket *.png rule.
+/*.png
+/*.jpg
+/*.jpeg
+
+# Local settings that should not travel
+.env
+.env.local
+.claude/settings.local.json

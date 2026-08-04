@@ -1,0 +1,48 @@
+{
+  "name": "lightning-sim",
+  "version": "1.0.0",
+  "description": "A lightning flash simulated from the electrostatics up, in the browser. Dielectric breakdown growth, Kasemir's floating bidirectional leader, MTLE return stroke, and thunder synthesised from the channel's own geometry.",
+  "type": "module",
+  "license": "MIT",
+  "author": "AI Pulse Daily (https://github.com/aipulsedaily)",
+  "homepage": "https://github.com/aipulsedaily/lightning-sim#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aipulsedaily/lightning-sim.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aipulsedaily/lightning-sim/issues"
+  },
+  "keywords": [
+    "lightning",
+    "physics",
+    "simulation",
+    "atmospheric-electricity",
+    "dielectric-breakdown-model",
+    "three.js",
+    "webgl",
+    "procedural",
+    "visualization",
+    "depth-estimation"
+  ],
+  "main": "src/main.js",
+  "files": [
+    "src",
+    "assets",
+    "index.html",
+    "serve.mjs"
+  ],
+  "scripts": {
+    "start": "node serve.mjs",
+    "serve": "node serve.mjs",
+    "test": "node tests/physics.test.mjs && node tests/photo.test.mjs",
+    "test:physics": "node tests/physics.test.mjs",
+    "test:photo": "node tests/photo.test.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "private": false,
+  "dependencies": {},
+  "devDependencies": {}
+}

@@ -1,0 +1,52 @@
+[
+  {
+    "file": "supercell-plains.jpg",
+    "thumb": "supercell-plains-thumb.jpg",
+    "label": "supercell",
+    "title": "Supercell mesocyclone over the plains",
+    "licence": "public domain",
+    "credit": "Sean Waugh, NOAA/NSSL",
+    "source": "https://commons.wikimedia.org/wiki/File:Nssl0225_-_Flickr_-_NOAA_Photo_Library.jpg",
+    "hint": "A flat horizon and a huge rotating base. The easiest case for the reconstruction and the best one to start with."
+  },
+  {
+    "file": "wall-cloud-prairie.jpg",
+    "thumb": "wall-cloud-prairie-thumb.jpg",
+    "label": "wall cloud",
+    "title": "Wall cloud over prairie",
+    "licence": "public domain",
+    "credit": "NOAA National Severe Storms Laboratory",
+    "source": "https://commons.wikimedia.org/wiki/File:Nssl0389_-_Flickr_-_NOAA_Photo_Library.jpg",
+    "hint": "Dead-level horizon at mid frame, with grass close enough to the camera to show real relief."
+  },
+  {
+    "file": "shelf-cloud-panorama.jpg",
+    "thumb": "shelf-cloud-panorama-thumb.jpg",
+    "label": "shelf cloud",
+    "title": "Shelf cloud over farmland (panorama)",
+    "licence": "public domain",
+    "credit": "NOAA National Severe Storms Laboratory",
+    "source": "https://commons.wikimedia.org/wiki/File:Nssl0392_-_Flickr_-_NOAA_Photo_Library.jpg",
+    "hint": "A stitched panorama, so it is unprojected onto a cylinder rather than a plane. Watch the Lens control pick that up on its own."
+  },
+  {
+    "file": "storm-chase.jpg",
+    "thumb": "storm-chase-thumb.jpg",
+    "label": "storm chase",
+    "title": "NSSL chase vehicle beneath a wall cloud",
+    "licence": "public domain",
+    "credit": "Dr Mike Coniglio, NOAA/NSSL (VORTEX2)",
+    "source": "https://commons.wikimedia.org/wiki/File:Nssl0310_-_Flickr_-_NOAA_Photo_Library.jpg",
+    "hint": "A large object a few metres from the camera. The best one for seeing the mesh tear at a silhouette instead of stretching."
+  },
+  {
+    "file": "klamath-marsh.jpg",
+    "thumb": "klamath-marsh-thumb.jpg",
+    "label": "marshland",
+    "title": "Cumulonimbus over Klamath Basin",
+    "licence": "public domain",
+    "credit": "U.S. Fish and Wildlife Service",
+    "source": "https://commons.wikimedia.org/wiki/File:Klamath_Basin_landscape.jpg",
+    "hint": "Standing water in the foreground and a mountain skyline at the horizon, so the flash gets something to reflect off."
+  }
+]

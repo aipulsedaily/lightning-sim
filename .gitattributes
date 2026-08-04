@@ -1,0 +1,12 @@
+# Normalise line endings so the repository is LF regardless of platform.
+* text=auto eol=lf
+
+# Binary assets must never be touched.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
+
+# Keep GitHub's language stats about the source, not the bundled photographs.
+assets/photos/* linguist-vendored
+docs/images/* linguist-documentation
